@@ -2,21 +2,11 @@
   import { createQuery } from "@tanstack/svelte-query";
   import { fade } from "svelte/transition";
   import Droplet from "./Droplet.svelte";
-
-  const api =
-    (import.meta.env["VITE_API_URL"] as string) ?? "http://localhost:8000";
+  import { forecast } from "./lib/forecast";
 
   const query = createQuery({
     queryKey: ["forecast"],
-    queryFn: async () => {
-      const resp = await fetch(api, {
-        method: "GET",
-      });
-      const { rain } = (await resp.json()) as { rain: string };
-
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      return rain;
-    },
+    queryFn: forecast,
   });
 </script>
 
